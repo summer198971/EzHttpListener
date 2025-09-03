@@ -1,0 +1,21 @@
+# version: '3.8'
+services:
+  ezhttplistener:
+    build:
+      context: .
+      args:
+        BUILDPLATFORM: ${BUILDPLATFORM:-linux/amd64}
+        TARGETPLATFORM: ${TARGETPLATFORM:-linux/amd64}
+    privileged: true
+    ports:
+      - "5116:5116"
+      - "8012:8012"
+    volumes:
+      - share_data:/share_data
+    environment:
+      - ASPNETCORE_URLS=http://+:5116
+      - COMPlus_EnableDiagnostics=0
+
+volumes:
+  share_data:
+    external: true 

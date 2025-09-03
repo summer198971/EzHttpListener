@@ -1,0 +1,66 @@
+---
+alwaysApply: true
+description: 项目概述和基本信息
+---
+
+# 项目概述
+
+这是一个高性能的 .NET Core 后台服务项目，用于监听 HTTP 接口，接收用户数据，进行存储、转发和日志处理。
+
+## 技术架构
+- **项目类型**: ASP.NET Core Web API
+- **主要语言**: C# 
+- **目标框架**: .NET 8.0
+- **容器化**: Docker + Docker Compose
+- **部署方式**: 单文件可执行程序，支持多架构 (AMD64/ARM64)
+
+## 核心功能模块
+
+### 1. HTTP 服务和路由 ([Program.cs](mdc:Program.cs))
+- 基于 ASP.NET Core 的 Web API 架构
+- 支持多端口监听 (5116上传/8012下载)
+- 依赖注入容器管理服务生命周期
+- 控制器路由映射和中间件配置
+
+### 2. 日志系统 ([LogWriter.cs](mdc:LogWriter.cs))
+- **异步日志写入**: 基于队列的异步处理机制
+- **文件分割**: 支持按大小自动分割日志文件
+- **线程安全**: 使用锁机制保证并发写入安全
+- **性能优化**: ThreadLocal StringBuilder 复用
+
+### 3. 日志过滤管理 ([Services/LogFilterManager.cs](mdc:Services/LogFilterManager.cs))
+- **智能过滤**: 基于正则表达式的日志过滤规则
+- **热重载**: 支持配置文件实时监控和重载
+- **统计监控**: 过滤数量、警报数量等统计信息
+- **缓存优化**: 预编译正则表达式缓存
+
+### 4. 快照管理 ([Snapshot/SnapshotManager.cs](mdc:Snapshot/SnapshotManager.cs))
+- **多格式支持**: 支持多种快照文件类型 ([SnapShootFileType.cs](mdc:Snapshot/SnapShootFileType.cs))
+- **异步存储**: 非阻塞的快照文件存储
+- **数据解析**: 智能解析快照信息 ([SnapShootInfo.cs](mdc:Snapshot/SnapShootInfo.cs))
+
+### 5. 错误处理和警报 ([Services/FeishuAlertService.cs](mdc:Services/FeishuAlertService.cs))
+- **智能通知**: 基于规则的飞书机器人通知
+- **冷却机制**: 防止频繁警报的冷却时间控制
+- **重试机制**: 网络失败时的自动重试
+- **线程安全**: 并发环境下的安全警报发送
+
+### 6. 配置管理 ([Config/GlobalConfig.cs](mdc:Config/GlobalConfig.cs))
+- **集中配置**: 统一的配置常量管理
+- **动态加载**: 从文件加载和更新配置
+- **类型安全**: 强类型配置属性
+- **环境适配**: 支持不同环境的配置差异
+
+## 数据处理特性
+- **压缩支持**: 自动检测和解压 GZip 数据 ([Tools.cs](mdc:Tools.cs))
+- **时间处理**: UTC+8 时区的时间格式化 ([TimeHelper.cs](mdc:TimeHelper.cs))
+- **异步 I/O**: 全面使用异步模式提高性能
+- **批量处理**: 支持批量数据处理以提高吞吐量
+
+## 部署和运维
+- **容器化部署**: 完整的 Docker 支持 ([Dockerfile](mdc:Dockerfile), [docker-compose.yml](mdc:docker-compose.yml))
+- **自动化脚本**: 部署、构建、停止脚本 ([deploy.sh](mdc:deploy.sh), [build.sh](mdc:build.sh), [stop.sh](mdc:stop.sh))
+- **健康检查**: 内置的服务状态监控端点
+- **日志轮转**: 自动的日志文件管理和清理
+
+项目采用现代的微服务架构设计，支持高并发、高可用的生产环境部署。

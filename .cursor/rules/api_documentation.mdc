@@ -1,0 +1,52 @@
+---
+description: API接口文档和端点说明
+globs: Controllers/*.cs
+---
+
+# API接口文档
+
+## 核心端点
+
+### 快照管理 (SnapshotController)
+- **POST** `/snapshoot` - 上传快照数据
+  - 处理快照文件上传和存储
+  - 支持多种文件类型 ([SnapShootFileType.cs](mdc:Snapshot/SnapShootFileType.cs))
+  - 异步处理快照存储 ([SnapshotManager.cs](mdc:Snapshot/SnapshotManager.cs))
+
+### 错误处理 (ErrorController)  
+- **POST** `/errorpos` - 上传错误位置信息
+- **POST** `/fighterror` - 上传战斗错误信息
+  - 支持GZip压缩数据自动解压
+  - 智能数据格式检测
+  - 日志过滤和飞书通知集成 ([FeishuAlertService.cs](mdc:Services/FeishuAlertService.cs))
+
+### 日志控制 (LogController)
+- **GET** `/openlog` - 查询日志开关状态
+- **GET** `/closelog` - 关闭日志记录
+- **GET** `/doopenlog` - 开启日志记录
+
+### 配置管理 (ConfigController)
+- **GET** `/config/status` - 查询配置状态
+- **POST** `/config/reload` - 重载配置文件
+
+### 辅助功能 (HelperController)
+- **GET** `/helper` - 辅助信息和健康检查
+
+## 配置常量
+
+所有端点路径定义在 [GlobalConfig.cs](mdc:Config/GlobalConfig.cs):
+- `SnapshootType = "snapshoot"`
+- `ErrorPosType = "errorpos"` 
+- `FightErrorType = "fighterror"`
+- `HelperType = "helper"`
+- `OpenLogType = "openlog"`
+- `CloseLogType = "closelog"`
+- `DoOpenLogType = "doopenlog"`
+
+## 数据处理特性
+
+- **压缩支持**: 自动检测和解压GZip数据
+- **异步处理**: 所有文件操作使用异步模式
+- **日志过滤**: 基于规则的日志过滤系统
+- **错误通知**: 集成飞书机器人通知
+- **配置热重载**: 支持运行时重载配置
