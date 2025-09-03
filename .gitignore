@@ -1,42 +1,60 @@
-# .NET Core
-bin/
-obj/
-*.user
-*.suo
-*.cache
-*.log
-
-# Visual Studio / Rider
-.vs/
-.idea/
-*.sln.DotSettings.user
+## .NET Core HTTP Listener Project .gitignore
+## Combines best practices for .NET projects with project-specific exclusions
 
 # Build results
 [Dd]ebug/
+[Dd]ebugPublic/
 [Rr]elease/
+[Rr]eleases/
 x64/
 x86/
+[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Ll]ogs/
 
 # .NET Core
+*.user
+*.suo
+*.cache
+*.log
 project.lock.json
 project.fragment.lock.json
 artifacts/
 
-# NuGet
+# Visual Studio / Rider
+.vs/
+.idea/
+*.sln.DotSettings.user
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet Packages
 *.nupkg
 *.snupkg
 .nuget/
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+CodeCoverage/
+
+# MSBuild Binary and Structured Log
+*.binlog
 
 # Temporary files
 *.tmp
 *.temp
 *~
+~$*
 
 # macOS
 .DS_Store
